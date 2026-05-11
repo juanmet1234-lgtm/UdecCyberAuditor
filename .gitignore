@@ -1,0 +1,25 @@
+# CREDENCIALES - NUNCA SUBIR A GITHUB
+credentials.json
+*.json
+secrets.toml
+ 
+# Archivos temporales y logs
+*.txt
+*.log
+*.tmp
+__pycache__/
+*.py[cod]
+*$py.class
+ 
+# Entornos virtuales
+venv/
+env/
+ENV/
+ 
+# IDEs
+.vscode/
+.idea/
+ 
+# Archivos de sistema
+.DS_Store
+Thumbs.db
