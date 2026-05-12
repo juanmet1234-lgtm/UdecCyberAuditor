@@ -387,7 +387,7 @@ with tab1:
         
         snap = st.session_state.get("last_snapshot")
         if not snap:
-            from v3.data_bridge import NetworkSnapshot
+            from data_bridge import NetworkSnapshot
             snap = NetworkSnapshot()
             st.session_state["last_snapshot"] = snap
 
