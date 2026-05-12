@@ -2,9 +2,26 @@ from __future__ import annotations
 
 import streamlit as st
 from streamlit.errors import StreamlitAPIException
+import sys
+import os
 
-from v3.auth import create_user, load_users
-from v3.styles import get_full_css
+# Detectar estructura (raíz para Streamlit Cloud o v3/ para desarrollo local)
+_CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
+if _CURRENT_DIR.endswith('pages'):
+    _ROOT = os.path.dirname(_CURRENT_DIR)
+else:
+    _ROOT = _CURRENT_DIR
+
+if _ROOT not in sys.path:
+    sys.path.insert(0, _ROOT)
+
+# Importar según estructura
+try:
+    from auth import create_user, load_users
+    from styles import get_full_css
+except ImportError:
+    from v3.auth import create_user, load_users
+    from v3.styles import get_full_css
 
 
 def _safe_switch_page(*candidates: str) -> None:
