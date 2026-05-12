@@ -14,26 +14,54 @@ from datetime import datetime
 from streamlit.errors import StreamlitAPIException
 
 # ── Path ─────────────────────────────────────────────────────────────────────
-_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# Detectar si estamos en desarrollo local (carpeta v3/) o en Streamlit Cloud (raíz)
+_CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
+if _CURRENT_DIR.endswith('v3'):
+    # Desarrollo local: subir un nivel
+    _ROOT = os.path.dirname(_CURRENT_DIR)
+else:
+    # Streamlit Cloud: ya estamos en la raíz
+    _ROOT = _CURRENT_DIR
+
 if _ROOT not in sys.path:
     sys.path.insert(0, _ROOT)
 
-from v3.styles import get_full_css
-from v3.auth import authenticate, load_users
-from v3.data_bridge import (
-    get_or_create_prober,
-    run_ping_diagnosis,
-    CORE_AVAILABLE,
-)
-from v3.gauges import render_gauge_row
-from v3.MonitoreoTiempoReal.sheets_collector import (
-    get_or_create_collector,
-    status_color,
-    status_icon,
-    overall_status,
-    POLL_INTERVAL_SEC,
-    SPREADSHEET_NAME,
-)
+# Importar según estructura
+try:
+    from styles import get_full_css
+    from auth import authenticate, load_users
+    from data_bridge import (
+        get_or_create_prober,
+        run_ping_diagnosis,
+        CORE_AVAILABLE,
+    )
+    from gauges import render_gauge_row
+    from MonitoreoTiempoReal.sheets_collector import (
+        get_or_create_collector,
+        status_color,
+        status_icon,
+        overall_status,
+        POLL_INTERVAL_SEC,
+        SPREADSHEET_NAME,
+    )
+except ImportError:
+    # Fallback para desarrollo local con estructura v3/
+    from v3.styles import get_full_css
+    from v3.auth import authenticate, load_users
+    from v3.data_bridge import (
+        get_or_create_prober,
+        run_ping_diagnosis,
+        CORE_AVAILABLE,
+    )
+    from v3.gauges import render_gauge_row
+    from v3.MonitoreoTiempoReal.sheets_collector import (
+        get_or_create_collector,
+        status_color,
+        status_icon,
+        overall_status,
+        POLL_INTERVAL_SEC,
+        SPREADSHEET_NAME,
+    )
 
 # ── Configuración de página ───────────────────────────────────────────────────
 st.set_page_config(
